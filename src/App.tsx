@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import UserForm, { User } from "./components/UserForm";
+import UsersTable from "./components/UsersTable";
 
 const FIREBASE_URL =
 	"https://infobasic-crud-default-rtdb.europe-west1.firebasedatabase.app";
@@ -96,45 +97,10 @@ function App() {
 					/>
 				</div>
 				<div className="col">
-					<table className="table">
-						<thead>
-							<tr>
-								<th scope="col">Name</th>
-								<th scope="col">Surname</th>
-								<th scope="col">Actions</th>
-							</tr>
-						</thead>
-						<tbody>
-							{users.length ? (
-								users.map((user, i) => (
-									<tr key={i}>
-										<td className="align-middle">{user.name}</td>
-										<td className="align-middle">{user.username}</td>
-										<td className="d-flex gap-2">
-											<button
-												className="btn btn-warning"
-												onClick={() => editUser(user)}
-											>
-												Edit
-											</button>
-											<button
-												className="btn btn-danger"
-												onClick={() => user.id && deleteUser(user.id)}
-											>
-												Delete
-											</button>
-										</td>
-									</tr>
-								))
-							) : (
-								<tr>
-									<td colSpan={3} className="text-center">
-										No users found
-									</td>
-								</tr>
-							)}
-						</tbody>
-					</table>
+					<UsersTable 
+					users={users} 
+					editUser={editUser} 
+					deleteUser={deleteUser} />
 				</div>
 			</div>
 		</div>
