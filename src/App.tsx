@@ -89,6 +89,7 @@ function App() {
 	};
 
 	return (
+		<div className="container d-flex flex-column py-5 gap-4 main-container">
 		<div className="container d-flex flex-column py-5 gap-4 p-5">
 			<h1 className="text-center">CRUD React + Firebase</h1>
 			<div className="row gap-5">
