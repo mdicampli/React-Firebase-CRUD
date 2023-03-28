@@ -90,7 +90,7 @@ function App() {
 
 	return (
 		<div className="container d-flex flex-column py-5 gap-4 main-container">
-			<h1 className="text-center">CRUD React + Firebase</h1>
+			<h1 className="text-center">CRUD React + Firebase DEV</h1>
 			<div className="row gap-5">
 				<div className="col pe-md-5">
 					<h2 className="mb-4">{currentUser.id ? "Edit" : "Add"} user</h2>
