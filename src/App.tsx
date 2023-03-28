@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./App.css";
-import UserForm, { User } from "./components/UserForm";
+import UserForm, { User, UserFormHandle } from "./components/UserForm";
 import UsersTable from "./components/UsersTable";
 
 const FIREBASE_URL =
@@ -16,6 +16,8 @@ function App() {
 		setCurrentUser(initialCurrentUserValue);
 	};
 
+	const userForm = useRef<UserFormHandle>(null);
+
 	useEffect(() => {
 		fetch(`${FIREBASE_URL}/users.json`, {
 			method: "GET",
@@ -28,6 +30,7 @@ function App() {
 						fetchedUsers.push({ ...data[key], id: key })
 					);
 					setUsers(fetchedUsers);
+					userForm.current?.resetForm();
 				}
 			})
 			.catch((err) => console.error(err));
@@ -42,6 +45,7 @@ function App() {
 			.then((res) => res.json())
 			.then((data) => {
 				setUsers((prevUsers) => [...prevUsers, { ...user, id: data.name }]);
+				userForm.current?.resetForm();
 			})
 			.catch((err) => console.error(err));
 	};
@@ -62,12 +66,12 @@ function App() {
 			.then((data) => {
 				if (data) {
 					setUsers((prevUsers) => {
-						console.log(prevUsers);
 						return prevUsers.map((prevUser) =>
 							prevUser.id === id ? updatedUser : prevUser
 						);
 					});
 					resetCurrentUser();
+					userForm.current?.resetForm();
 				}
 			})
 			.catch((err) => console.error(err));
@@ -91,16 +95,18 @@ function App() {
 				<div className="col pe-5">
 					<h2 className="mb-4">{currentUser.id ? "Edit" : "Add"} user</h2>
 					<UserForm
+						ref={userForm}
 						addUser={addUser}
 						updateUser={updateUser}
 						currentUser={currentUser}
 					/>
 				</div>
 				<div className="col">
-					<UsersTable 
-					users={users} 
-					editUser={editUser} 
-					deleteUser={deleteUser} />
+					<UsersTable
+						users={users}
+						editUser={editUser}
+						deleteUser={deleteUser}
+					/>
 				</div>
 			</div>
 		</div>
